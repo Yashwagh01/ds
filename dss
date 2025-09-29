@@ -1,0 +1,294 @@
+1. Abstract Data Type (ADT)
+
+Here’s a generic List ADT implementation:
+
+class ListADT:
+    def __init__(self):
+        self.data = []
+
+    def insert(self, item):
+        self.data.append(item)
+
+    def delete(self, item):
+        if item in self.data:
+            self.data.remove(item)
+        else:
+            print("Item not found!")
+
+    def search(self, item):
+        return item in self.data
+
+    def traverse(self):
+        print("List:", self.data)
+
+# Example
+l = ListADT()
+l.insert(10)
+l.insert(20)
+l.insert(30)
+l.traverse()
+l.delete(20)
+l.traverse()
+print("Search 30:", l.search(30))
+
+2. Polynomial Operations Using Linked Lists
+class Node:
+    def __init__(self, coeff, power):
+        self.coeff = coeff
+        self.power = power
+        self.next = None
+
+class Polynomial:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, coeff, power):
+        new_node = Node(coeff, power)
+        if not self.head:
+            self.head = new_node
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            temp.next = new_node
+
+    def display(self):
+        temp = self.head
+        result = []
+        while temp:
+            result.append(f"{temp.coeff}x^{temp.power}")
+            temp = temp.next
+        print(" + ".join(result))
+
+    @staticmethod
+    def add(poly1, poly2):
+        p1, p2 = poly1.head, poly2.head
+        result = Polynomial()
+        while p1 or p2:
+            if p1 and (not p2 or p1.power > p2.power):
+                result.insert(p1.coeff, p1.power)
+                p1 = p1.next
+            elif p2 and (not p1 or p2.power > p1.power):
+                result.insert(p2.coeff, p2.power)
+                p2 = p2.next
+            else:
+                coeff_sum = p1.coeff + p2.coeff
+                if coeff_sum != 0:
+                    result.insert(coeff_sum, p1.power)
+                p1, p2 = p1.next, p2.next
+        return result
+
+    @staticmethod
+    def subtract(poly1, poly2):
+        p1, p2 = poly1.head, poly2.head
+        result = Polynomial()
+        while p1 or p2:
+            if p1 and (not p2 or p1.power > p2.power):
+                result.insert(p1.coeff, p1.power)
+                p1 = p1.next
+            elif p2 and (not p1 or p2.power > p1.power):
+                result.insert(-p2.coeff, p2.power)
+                p2 = p2.next
+            else:
+                coeff_diff = p1.coeff - p2.coeff
+                if coeff_diff != 0:
+                    result.insert(coeff_diff, p1.power)
+                p1, p2 = p1.next, p2.next
+        return result
+
+# Example
+poly1 = Polynomial()
+poly1.insert(3, 2)   # 3x^2
+poly1.insert(5, 1)   # 5x^1
+poly1.insert(6, 0)   # 6
+
+poly2 = Polynomial()
+poly2.insert(6, 1)   # 6x^1
+poly2.insert(8, 0)   # 8
+
+print("Polynomial 1:")
+poly1.display()
+print("Polynomial 2:")
+poly2.display()
+
+print("Addition Result:")
+Polynomial.add(poly1, poly2).display()
+
+print("Subtraction Result:")
+Polynomial.subtract(poly1, poly2).display()
+
+3. Singly Linked List
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class SinglyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            temp.next = new_node
+
+    def delete(self, key):
+        temp = self.head
+        if temp and temp.data == key:
+            self.head = temp.next
+            return
+        prev = None
+        while temp and temp.data != key:
+            prev = temp
+            temp = temp.next
+        if temp:
+            prev.next = temp.next
+
+    def traverse(self):
+        temp = self.head
+        while temp:
+            print(temp.data, end=" -> ")
+            temp = temp.next
+        print("None")
+
+# Example
+ll = SinglyLinkedList()
+ll.insert(10)
+ll.insert(20)
+ll.insert(30)
+ll.traverse()
+ll.delete(20)
+ll.traverse()
+
+4. Stack
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, data):
+        self.stack.append(data)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.stack.pop()
+        return "Stack Underflow"
+
+    def is_empty(self):
+        return len(self.stack) == 0
+
+    def traverse(self):
+        print("Stack (Top -> Bottom):", list(reversed(self.stack)))
+
+# Example
+s = Stack()
+s.push(10)
+s.push(20)
+s.push(30)
+s.traverse()
+print("Popped:", s.pop())
+s.traverse()
+
+5. Hash Table (No Collisions)
+class HashTable:
+    def __init__(self, size=10):
+        self.size = size
+        self.table = [None] * size
+
+    def hash_function(self, key):
+        return key % self.size
+
+    def insert(self, key, value):
+        index = self.hash_function(key)
+        self.table[index] = value
+
+    def delete(self, key):
+        index = self.hash_function(key)
+        self.table[index] = None
+
+    def traverse(self):
+        for i, val in enumerate(self.table):
+            if val is not None:
+                print(f"Index {i}: {val}")
+
+# Example
+ht = HashTable()
+ht.insert(1, "A")
+ht.insert(11, "B")
+ht.insert(21, "C")
+ht.traverse()
+ht.delete(11)
+ht.traverse()
+
+6. Queue
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, data):
+        self.queue.append(data)
+
+    def dequeue(self):
+        if not self.is_empty():
+            return self.queue.pop(0)
+        return "Queue Underflow"
+
+    def is_empty(self):
+        return len(self.queue) == 0
+
+    def traverse(self):
+        print("Queue (Front -> Rear):", self.queue)
+
+# Example
+q = Queue()
+q.enqueue(10)
+q.enqueue(20)
+q.enqueue(30)
+q.traverse()
+print("Dequeued:", q.dequeue())
+q.traverse()
+
+7. Binary Tree with Traversals
+class Node:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.val = key
+
+def inorder(root):
+    if root:
+        inorder(root.left)
+        print(root.val, end=" ")
+        inorder(root.right)
+
+def preorder(root):
+    if root:
+        print(root.val, end=" ")
+        preorder(root.left)
+        preorder(root.right)
+
+def postorder(root):
+    if root:
+        postorder(root.left)
+        postorder(root.right)
+        print(root.val, end=" ")
+
+# Example
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+
+print("Inorder Traversal:")
+inorder(root)
+print("\nPreorder Traversal:")
+preorder(root)
+print("\nPostorder Traversal:")
+postorder(root)
+
+
