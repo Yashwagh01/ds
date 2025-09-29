@@ -1,0 +1,29 @@
+class HashTable:
+    def __init__(self, size=10):
+        self.size = size
+        self.table = [None] * size
+
+    def hash_function(self, key):
+        return key % self.size
+
+    def insert(self, key, value):
+        index = self.hash_function(key)
+        self.table[index] = value
+
+    def delete(self, key):
+        index = self.hash_function(key)
+        self.table[index] = None
+
+    def traverse(self):
+        for i, val in enumerate(self.table):
+            if val is not None:
+                print(f"Index {i}: {val}")
+
+# Example
+ht = HashTable()
+ht.insert(1, "A")
+ht.insert(11, "B")
+ht.insert(21, "C")
+ht.traverse()
+ht.delete(11)
+ht.traverse()
