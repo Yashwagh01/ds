@@ -1,0 +1,26 @@
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, data):
+        self.queue.append(data)
+
+    def dequeue(self):
+        if not self.is_empty():
+            return self.queue.pop(0)
+        return "Queue Underflow"
+
+    def is_empty(self):
+        return len(self.queue) == 0
+
+    def traverse(self):
+        print("Queue (Front -> Rear):", self.queue)
+
+# Example
+q = Queue()
+q.enqueue(10)
+q.enqueue(20)
+q.enqueue(30)
+q.traverse()
+print("Dequeued:", q.dequeue())
+q.traverse()
