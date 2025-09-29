@@ -1,0 +1,32 @@
+Abstract Data Type (ADT)
+
+Here’s a generic List ADT implementation:
+
+class ListADT:
+    def __init__(self):
+        self.data = []
+
+    def insert(self, item):
+        self.data.append(item)
+
+    def delete(self, item):
+        if item in self.data:
+            self.data.remove(item)
+        else:
+            print("Item not found!")
+
+    def search(self, item):
+        return item in self.data
+
+    def traverse(self):
+        print("List:", self.data)
+
+# Example
+l = ListADT()
+l.insert(10)
+l.insert(20)
+l.insert(30)
+l.traverse()
+l.delete(20)
+l.traverse()
+print("Search 30:", l.search(30))
